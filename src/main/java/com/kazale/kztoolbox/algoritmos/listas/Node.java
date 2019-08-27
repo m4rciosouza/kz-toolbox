@@ -1,4 +1,4 @@
-package com.kazale.kztoolbox.algoritmos.listas.listaligada;
+package com.kazale.kztoolbox.algoritmos.listas;
 
 public class Node<T> {
     private final T valor;

@@ -1,5 +1,7 @@
 package com.kazale.kztoolbox.algoritmos.listas.listaligada;
 
+import com.kazale.kztoolbox.algoritmos.listas.Node;
+
 public class ListaLigada<T> {
 
     private Node<T> head;
@@ -58,6 +60,50 @@ public class ListaLigada<T> {
         tamanho++;
     }
 
+    /**
+     *
+     * @param posicao inicia em 0 para primeira posição
+     * @return
+     */
+    public T obterPosicao(int posicao) {
+        if (posicao >= tamanho) {
+            throw new IllegalArgumentException("Posição inválida.");
+        }
+
+        int posicaoLista = 0;
+        Node<T> node = head;
+        while (posicaoLista < posicao) {
+            node = node.getNext();
+            posicaoLista++;
+        }
+
+        return node.getValor();
+    }
+
+    /**
+     *
+     * @param posicao inicia em 0 para primeira posição
+     * @return
+     */
+    public void remover(int posicao) {
+        if (posicao >= tamanho) {
+            throw new IllegalArgumentException("Posição inválida.");
+        }
+
+        if (posicao == 0) {
+            head = null;
+            return;
+        }
+
+        int posicaoLista = 1;
+        Node<T> node = head;
+        while (posicao != posicaoLista) {
+            node = node.getNext();
+            posicaoLista++;
+        }
+        node.setNext(node.getNext().getNext());
+    }
+
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
@@ -71,4 +117,5 @@ public class ListaLigada<T> {
         }
         return builder.toString();
     }
+
 }
