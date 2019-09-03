@@ -21,16 +21,16 @@ public class ListaLigada<T> {
     }
 
     public void adicionar(T valor) {
+        Node<T> novoNode = new Node<>(valor);
         if (head == null) {
-            head = new Node<>(valor);
-            tamanho++;
-            return;
+            head = novoNode;
+        } else {
+            Node<T> node = head;
+            while (node.getNext() != null) {
+                node = node.getNext();
+            }
+            node.setNext(novoNode);
         }
-        Node<T> node = head;
-        while (node.getNext() != null) {
-            node = node.getNext();
-        }
-        node.setNext(new Node<>(valor));
         tamanho++;
     }
 
@@ -40,23 +40,22 @@ public class ListaLigada<T> {
      * @param posicao iniciando do valor 0
      */
     public void adicionar(T valor, int posicao) {
-        if (posicao != 0 && tamanho < posicao) {
+        if (posicao < 0 || posicao > tamanho) {
             throw new IllegalArgumentException("Posição inválida");
         }
         if (posicao == 0) {
             head = new Node<>(valor);
-            tamanho++;
-            return;
+        } else {
+            int posicaoAtual = 1;
+            Node<T> node = head;
+            while (posicao != posicaoAtual) {
+                node = node.getNext();
+                posicaoAtual++;
+            }
+            Node<T> novoNode = new Node<>(valor);
+            novoNode.setNext(node.getNext());
+            node.setNext(novoNode);
         }
-        int posicaoAtual = 1;
-        Node<T> node = head;
-        while (posicao != posicaoAtual) {
-            node = node.getNext();
-            posicaoAtual++;
-        }
-        Node<T> novoNode = new Node<>(valor);
-        novoNode.setNext(node.getNext());
-        node.setNext(novoNode);
         tamanho++;
     }
 
@@ -69,14 +68,12 @@ public class ListaLigada<T> {
         if (posicao >= tamanho) {
             throw new IllegalArgumentException("Posição inválida.");
         }
-
         int posicaoLista = 0;
         Node<T> node = head;
         while (posicaoLista < posicao) {
             node = node.getNext();
             posicaoLista++;
         }
-
         return node.getValor();
     }
 
@@ -89,19 +86,17 @@ public class ListaLigada<T> {
         if (posicao >= tamanho) {
             throw new IllegalArgumentException("Posição inválida.");
         }
-
         if (posicao == 0) {
             head = null;
-            return;
+        } else {
+            int posicaoLista = 1;
+            Node<T> node = head;
+            while (posicao != posicaoLista) {
+                node = node.getNext();
+                posicaoLista++;
+            }
+            node.setNext(node.getNext().getNext());
         }
-
-        int posicaoLista = 1;
-        Node<T> node = head;
-        while (posicao != posicaoLista) {
-            node = node.getNext();
-            posicaoLista++;
-        }
-        node.setNext(node.getNext().getNext());
     }
 
     @Override
