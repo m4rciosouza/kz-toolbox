@@ -1,5 +1,7 @@
 package com.kazale.kztoolbox.algoritmos.utils;
 
+import com.kazale.kztoolbox.algoritmos.listas.Node;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,6 +54,24 @@ public class Utils {
                 .stream()
                 .mapToInt(Integer::intValue)
                 .toArray();
+    }
+
+    /**
+     * Retorna os valores de uma lista ligada a serem impressos.
+     *
+     * @param head Node com o valor inicial da lista
+     * @return uma String contendo os elementos da lista ligada separados por vírgula
+     */
+    public static String imprimirListaLigada(Node head) {
+        final StringBuilder builder = new StringBuilder();
+        while (head != null) {
+            builder.append(head.getValor());
+            head = head.getNext();
+            if (head != null) {
+                builder.append(", ");
+            }
+        }
+        return builder.toString();
     }
 
 }
