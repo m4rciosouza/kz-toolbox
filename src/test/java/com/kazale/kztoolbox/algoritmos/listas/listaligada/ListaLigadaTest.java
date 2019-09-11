@@ -50,6 +50,15 @@ public class ListaLigadaTest {
     }
 
     @Test
+    public void testAdicionarNaPrimeiraPosicaoListaNaoNula() {
+        ListaLigada<Integer> lista = new ListaLigada<>();
+        lista.adicionar(5);
+        lista.adicionar(10, 0);
+
+        assertEquals("10, 5", lista.toString());
+    }
+
+    @Test
     public void testAdicionarNoCentroDaLista() {
         ListaLigada<Integer> lista = new ListaLigada<>();
         lista.adicionar(1);
