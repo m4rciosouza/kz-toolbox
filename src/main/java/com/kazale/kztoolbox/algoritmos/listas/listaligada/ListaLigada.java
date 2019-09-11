@@ -1,6 +1,7 @@
 package com.kazale.kztoolbox.algoritmos.listas.listaligada;
 
 import com.kazale.kztoolbox.algoritmos.listas.Node;
+import com.kazale.kztoolbox.algoritmos.utils.Utils;
 
 public class ListaLigada<T> {
 
@@ -44,7 +45,9 @@ public class ListaLigada<T> {
             throw new IllegalArgumentException("Posição inválida");
         }
         if (posicao == 0) {
-            head = new Node<>(valor);
+            Node<T> node = new Node<>(valor);
+            node.setNext(head);
+            head = node;
         } else {
             int posicaoAtual = 1;
             Node<T> node = head;
@@ -101,16 +104,7 @@ public class ListaLigada<T> {
 
     @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        Node node = head;
-        while (node != null) {
-            builder.append(node.getValor());
-            node = node.getNext();
-            if (node != null) {
-                builder.append(", ");
-            }
-        }
-        return builder.toString();
+        return Utils.imprimirListaLigada(head);
     }
 
 }
