@@ -90,7 +90,11 @@ public class ListaLigada<T> {
             throw new IllegalArgumentException("Posição inválida.");
         }
         if (posicao == 0) {
-            head = null;
+            if (head != null && head.getNext() != null) {
+                head = head.getNext();
+            } else {
+                head = null;
+            }
         } else {
             int posicaoLista = 1;
             Node<T> node = head;
@@ -100,6 +104,7 @@ public class ListaLigada<T> {
             }
             node.setNext(node.getNext().getNext());
         }
+        tamanho--;
     }
 
     @Override
