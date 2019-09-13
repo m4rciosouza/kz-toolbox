@@ -141,6 +141,13 @@ public class ListaLigadaTest {
         lista.remover(1);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testRemoverElementoPosicaoNegativa() {
+        ListaLigada<Integer> lista = new ListaLigada<>();
+        lista.adicionar(1);
+        lista.remover(-1);
+    }
+
     @Test
     public void testRemoverPrimeiroElementeDaLista() {
         ListaLigada<Integer> lista = new ListaLigada<>();
@@ -148,6 +155,17 @@ public class ListaLigadaTest {
         lista.remover(0);
 
         assertEquals("", lista.toString());
+    }
+
+    @Test
+    public void testRemoverPrimeiroElementeDaListaComMultiplosElementos() {
+        ListaLigada<Integer> lista = new ListaLigada<>();
+        lista.adicionar(1);
+        lista.adicionar(2);
+        lista.adicionar(3);
+        lista.remover(0);
+
+        assertEquals("2, 3", lista.toString());
     }
 
     @Test
