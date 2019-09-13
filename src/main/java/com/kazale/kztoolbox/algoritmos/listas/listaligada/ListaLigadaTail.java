@@ -96,12 +96,19 @@ public class ListaLigadaTail<T> {
      * @return
      */
     public void remover(int posicao) {
-        if (posicao >= tamanho) {
+        if (posicao < 0 || posicao >= tamanho) {
             throw new IllegalArgumentException("Posição inválida.");
         }
         if (posicao == 0) {
-            head = null;
-            tail = null;
+            if (head != null && head.getNext() != null) {
+                head = head.getNext();
+                if (tamanho <= 1) {
+                    tail = head;
+                }
+            } else {
+                head = null;
+                tail = null;
+            }
         } else {
             Node<T> node = head;
             for (int pos = 1; pos != posicao; pos++) {
