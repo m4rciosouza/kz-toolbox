@@ -86,7 +86,7 @@ public class ListaLigada<T> {
      * @return
      */
     public void remover(int posicao) {
-        if (posicao >= tamanho) {
+        if (posicao < 0 || posicao >= tamanho) {
             throw new IllegalArgumentException("Posição inválida.");
         }
         if (posicao == 0) {
