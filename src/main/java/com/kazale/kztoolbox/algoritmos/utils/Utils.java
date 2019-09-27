@@ -1,5 +1,6 @@
 package com.kazale.kztoolbox.algoritmos.utils;
 
+import com.kazale.kztoolbox.algoritmos.arvores.Arvore;
 import com.kazale.kztoolbox.algoritmos.listas.Node;
 
 import java.util.Collections;
@@ -72,6 +73,72 @@ public class Utils {
             }
         }
         return builder.toString();
+    }
+
+    /**
+     * Formata e retorna uma árvore em formato visual, conforme o exemplo a seguir.
+     *
+     * 1
+     * |--11
+     * |  |--21
+     * |  |--22
+     * |  |--23
+     * |--12
+     * |--13
+     * |  |--23
+     * |     |--33
+     * |     |--34
+     * |        |--43
+     *
+     * @param arvore Arvore
+     * @return String contendo a árvore formatada conforme exemplo acima.
+     */
+    public static String formatarArvore(Arvore arvore) {
+        if (arvore == null) {
+            return "";
+        }
+        final String toString = arvore.toString();
+        final StringBuilder builder = new StringBuilder();
+        builder.append(toString.charAt(0));
+        int tab = 0;
+        for (int i = 1; i < toString.length(); i++) {
+            char c = toString.charAt(i);
+            switch (c) {
+                case '[':
+                    printTabs(builder, ++tab);
+                    break;
+                case ']':
+                    tab--;
+                    break;
+                case ',':
+                    printTabs(builder, tab);
+                    break;
+                default:
+                    builder.append(c);
+                    break;
+            }
+        }
+        return builder.toString();
+    }
+
+    /**
+     * Método auxiliar utilizado por "formatarArvore" para adicionar os
+     * espaçamentos de uma árvore.
+     *
+     * @param builder StringBuilder contendo informações da árvore
+     * @param tab int contendo o número de espaçamentos (tabs) a serem adicionadas
+     */
+    private static void printTabs(StringBuilder builder, int tab) {
+        builder.append("\n");
+        for (int t = 0; t < tab; t++) {
+            if (tab - 1 == t) {
+                builder.append("|--");
+            } else if (t == 0) {
+                builder.append("|  ");
+            } else {
+                builder.append("   ");
+            }
+        }
     }
 
 }
