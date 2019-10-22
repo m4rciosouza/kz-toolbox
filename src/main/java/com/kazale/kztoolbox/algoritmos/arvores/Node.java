@@ -14,7 +14,7 @@ public class Node<T> {
         filhos = new ArrayList<>();
     }
 
-    public Node(T valor, Node pai) {
+    public Node(T valor, Node<T> pai) {
         this.pai = pai;
         this.valor = valor;
         filhos = new ArrayList<>();
