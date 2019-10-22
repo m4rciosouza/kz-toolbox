@@ -1,7 +1,5 @@
 package com.kazale.kztoolbox.algoritmos.arvores;
 
-import com.kazale.kztoolbox.algoritmos.utils.Utils;
-
 public class Arvore<T> {
 
     private final Node<T> raiz;
