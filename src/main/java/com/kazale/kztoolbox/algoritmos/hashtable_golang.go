@@ -11,15 +11,15 @@ type Node struct {
 }
 
 type LList struct {
-	head *Node
+	Head *Node
 }
 
 func (ll *LList) Add(key string, value int) {
 	newNode := Node{Key: key, Value: value}
-	if ll.head == nil {
-		ll.head = &newNode
+	if ll.Head == nil {
+		ll.Head = &newNode
 	} else {
-		node := ll.head
+		node := ll.Head
 		for node.Next != nil {
 			node = node.Next
 		}
@@ -28,7 +28,7 @@ func (ll *LList) Add(key string, value int) {
 }
 
 func (ll LList) Get(key string) (int, bool) {
-	node := ll.head
+	node := ll.Head
 	for node != nil {
 		if node.Key == key {
 			return node.Value, true
@@ -36,6 +36,30 @@ func (ll LList) Get(key string) (int, bool) {
 		node = node.Next
 	}
 	return 0, false
+}
+
+func (ll *LList) Delete(key string) bool {
+	node := ll.Head
+	var prev *Node
+
+	// If head node itself holds the key to be deleted
+	if node != nil && node.Key == key {
+		node = node.Next
+		return true
+	}
+
+	// Search for the key to be deleted, keep track of, the previous node as we need to change node.next
+	for node != nil && node.Key != key {
+		prev = node
+		node = node.Next
+	}
+
+	if node == nil || prev == nil {
+		return false
+	}
+
+	prev.Next = node.Next
+	return true
 }
 
 // hash table implementation
@@ -61,7 +85,7 @@ func (ht *HashTableLL) ReHash() {
 	ht.Size = 0
 	ht.Values = make([]LList, ht.Capacity)
 	for i := 0; i < len(currValues); i++ {
-		node := currValues[i].head
+		node := currValues[i].Head
 		for node != nil {
 			ht.Add(node.Key, node.Value)
 			node = node.Next
@@ -74,7 +98,7 @@ func (ht *HashTableLL) Add(key string, value int) {
 		ht.ReHash()
 	}
 	index := ht.Hash(key)
-	node := ht.Values[index].head
+	node := ht.Values[index].Head
 	for node != nil {
 		if node.Key == key {
 			node.Value = value
@@ -84,6 +108,14 @@ func (ht *HashTableLL) Add(key string, value int) {
 	}
 	ht.Values[index].Add(key, value)
 	ht.Size++
+}
+
+func (ht *HashTableLL) Delete(key string) {
+	index := ht.Hash(key)
+	deleted := ht.Values[index].Delete(key)
+	if deleted {
+		ht.Size--
+	}
 }
 
 func (ht HashTableLL) Get(key string) int {
@@ -99,9 +131,9 @@ func (ht HashTableLL) Get(key string) int {
 func (ht HashTableLL) ToString() {
 	maxDepth := -1
 	for i := 0; i < len(ht.Values); i++ {
-		if ht.Values[i].head != nil {
+		if ht.Values[i].Head != nil {
 			fmt.Printf("Bucket %d contains:\n", i)
-			node := ht.Values[i].head
+			node := ht.Values[i].Head
 			numBucket := 0
 			for node != nil {
 				numBucket++
@@ -159,6 +191,7 @@ func nextPrime(n int) int {
 	fmt.Printf("Rehash with next capacity of %d.\n", prime)
 	return prime
 }
+
 
 ////////////////////////////////// TEST FILE //////////////////////////////////////////////////////////
 package hashtablell
@@ -461,5 +494,17 @@ func TestAddElementsLoadTest(t *testing.T) {
 			t.Fatalf("Value for 'Brasil' should be 10, but got %d", ht.Get("Brasil"))
 		}
 	}
+	ht.ToString()
+}
+
+func TestDeleteElements(t *testing.T) {
+	ht := HashTableLL{Values: make([]LList, 97), Capacity:97}
+	for i:=0; i<50; i++ {
+		ht.Add(countries[i], i)
+	}
+	ht.Delete("Chile") // bucket 0 / size 1
+	ht.Delete("Cambodia") // bucket 8 / size 2 / delete head
+	ht.Delete("Brazil") // bucket 30 / size 3 / delete elem 2 position
+	ht.Delete("Bulgaria") // bucket 31 / size 2 / delete last element
 	ht.ToString()
 }
